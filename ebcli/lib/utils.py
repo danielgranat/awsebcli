@@ -316,7 +316,7 @@ def retract_string(string):
 
 def check_source(value):
     match = re.match(r"([^/]+/[^/]+/[^/]+)", value)
-    if match is None or len(value.split("/")) > 3:
+    if match is None or len(value.split("/")) < 3:
         raise argparse.ArgumentTypeError(
             "%s is a invalid source. Example source would be something like: codecommit/repo/branch" % value)
     return value
@@ -334,7 +334,7 @@ def parse_source(source):
     validate_source_location(source_location)
 
     repository = split_source[1]
-    branch = split_source[2]
+    branch = "/".join([str(x) for x in split_source[2:]])
     return source_location, repository, branch
 
 
